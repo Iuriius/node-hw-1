@@ -2,6 +2,7 @@ import { contacts } from './contacts.js';
 
 const { Command } = require('commander');
 const program = new Command();
+
 program
   .option('-a, --action <type>', 'choose action')
   .option('-i, --id <type>', 'user id')
@@ -14,28 +15,38 @@ program.parse(process.argv);
 const argv = program.opts();
 
 // TODO: рефакторить
-function invokeAction({ action, id, name, email, phone }) {
+const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
     case 'list':
-      contacts.listContacts();
+      const contacts = await contactsOperation.listContacts();
+      console.table(contacts);
       break;
 
     case 'get':
-      contacts.getContactById(id);
+      const contact = await contactsOperation.getContactById(id);
+      console.log(contact);
+      if (!contact) {
+        throw new Error(`Contact with id ${id} not found`);
+      }
       break;
 
     case 'add':
-      contacts.addContact(name, email, phone);
+      const newContact = await contactsOperation.addContact(name, email, phone);
+      console.log(newContact);
       break;
 
     case 'remove':
-      contacts.removeContact(id);
+      const removedContact = await contactsOperation.removeContact(id);
+      console.log(removedContact);
+      if (!removedContact) {
+        throw new Error(`Contact with id ${id} not found`);
+      }
       break;
 
     default:
       console.warn('\x1B[31m Unknown action type!');
   }
-}
+};
 
 invokeAction(argv);
 
