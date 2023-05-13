@@ -1,9 +1,10 @@
 const fs = require('fs').promises;
 const path = require('path');
-const { stringify } = require('querystring');
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import { nanoid } from 'nanoid';
+const stringify = require('querystring');
+const readFileSync = require('fs');
+const writeFileSync = require('fs');
+const join = require('path');
+const nanoid = require('nanoid');
 
 const contactsPath = join(__dirname, 'db', 'contacts.json');
 
