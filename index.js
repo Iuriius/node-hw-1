@@ -11,40 +11,24 @@ program
 
 program.parse(process.argv);
 
-const argv = program.opts();
+const opt = program.opts();
 
-// TODO: рефакторить
-const invokeAction = async ({ action, id, name, email, phone }) => {
+function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case 'list':
-      const contacts = await contactsOperation.listContacts();
-      console.table(contacts);
+      contacts.listContacts();
       break;
-
     case 'get':
-      const contact = await contactsOperation.getContactById(id);
-      console.log(contact);
-      if (!contact) {
-        throw new Error(`Contact with id ${id} not found`);
-      }
+      contacts.getContactById(id);
       break;
-
     case 'add':
-      const newContact = await contactsOperation.addContact(name, email, phone);
-      console.log(newContact);
+      contacts.addContact(name, email, phone);
       break;
-
     case 'remove':
-      const removedContact = await contactsOperation.removeContact(id);
-      console.log(removedContact);
-      if (!removedContact) {
-        throw new Error(`Contact with id ${id} not found`);
-      }
+      contacts.removeContact(id);
       break;
-
     default:
       console.warn('\x1B[31m Unknown action type!');
   }
-};
-
-invokeAction(argv);
+}
+invokeAction(opt);
