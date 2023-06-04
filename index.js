@@ -11,7 +11,7 @@ program
 
 program.parse(process.argv);
 
-const opt = program.opts();
+const argv = program.opts();
 
 function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
@@ -31,4 +31,4 @@ function invokeAction({ action, id, name, email, phone }) {
       console.warn('\x1B[31m Unknown action type!');
   }
 }
-invokeAction(opt);
+invokeAction(argv);
